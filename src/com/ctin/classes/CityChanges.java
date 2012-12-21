@@ -19,6 +19,8 @@ import android.util.Log;
 
 public final class CityChanges {
 	
+	public static String CityChangesUrl = "http://mysterious-bayou-7847.herokuapp.com/";
+	
 	private static Map<Integer, Proposition> propositions = new HashMap<Integer, Proposition>();
 	private static Map<Integer, User> users = new HashMap<Integer, User>();
 	private static Map<Integer, Category> categories = new HashMap<Integer, Category>();
@@ -47,10 +49,10 @@ public final class CityChanges {
 		CityChanges.categories = categories;
 	}
 
-	public static void loadUrl(String url){
+	public static void loadUrl(){
 		try{
-			loadCategories(url+"categories.json");
-			loadPropositions(url+"propositions.json");
+			loadCategories(CityChangesUrl+"categories.json");
+			loadPropositions(CityChangesUrl+"propositions.json");
 		}catch(Exception ex){
 			Log.i("loadUrl", ex.getLocalizedMessage());
 		}
@@ -60,12 +62,6 @@ public final class CityChanges {
 		String jsonStringCategories = getSourceCode(path);
 		parseJsonCategories(jsonStringCategories);
 	}
-	
-	public static void loadPropositions(String path) throws Exception{
-		String jsonStringPropositions = getSourceCode(path);
-		parseJsonPropositions(jsonStringPropositions);
-	}
-	
 	private static void parseJsonCategories(String jsonStringCategories) throws Exception{
 		JSONArray jsonArray = new JSONArray(jsonStringCategories);
 		for (int i = 0; i < jsonArray.length(); i++) {
@@ -79,19 +75,36 @@ public final class CityChanges {
 		}
 	}
 	
-	private static void parseJsonPropositions(String jsonStringPropositions) throws JSONException{
+	public static void loadUser(int id) throws Exception{
+		String jsonStringUser = getSourceCode(CityChangesUrl+"users/"+id+".json");
+		parseJsonUser(jsonStringUser);
+	}
+	public static void parseJsonUser(String jsonStringUser) throws Exception{
+		JSONObject jsonObject = new JSONObject(jsonStringUser);
+		JSONObject jsonUser = jsonObject.getJSONObject("user");
+		User u = new User();
+		u.setId(jsonUser.getInt("id"));
+		u.setFirstname(jsonUser.getString("firstname"));
+		u.setLastname(jsonUser.getString("lastname"));
+		u.setPicture(jsonUser.getString("picture"));
+		u.setEmail(jsonUser.getString("email"));
+		users.put(new Integer(u.getId()), u);
+	}
+	
+	
+	public static void loadPropositions(String path) throws Exception{
+		String jsonStringPropositions = getSourceCode(path);
+		parseJsonPropositions(jsonStringPropositions);
+	}
+	private static void parseJsonPropositions(String jsonStringPropositions) throws JSONException, Exception{
 		JSONArray jsonArray = new JSONArray(jsonStringPropositions);
 		for (int i = 0; i < jsonArray.length(); i++) {
 			JSONObject jsonObject = jsonArray.getJSONObject(i);
 			JSONObject jsonProposition = jsonObject.getJSONObject("proposition");
 			JSONObject jsonUser = jsonProposition.getJSONObject("user");
-			
-			User u = new User();
-			u.setId(jsonUser.getInt("id"));
-			u.setFirstname(jsonUser.getString("firstname"));
-			u.setLastname(jsonUser.getString("lastname"));
-			u.setPicture(jsonUser.getString("picture"));
-			
+			int id_user = jsonUser.getInt("id");
+			if(!users.containsKey(id_user))
+				loadUser(id_user);
 			Proposition p = new Proposition();
 			p.setId(jsonProposition.getInt("id"));
 			p.setTitle(jsonProposition.getString("title"));
@@ -102,12 +115,10 @@ public final class CityChanges {
 			p.setLatitude(jsonProposition.getLong("latitude"));
 			p.setLongitude(jsonProposition.getLong("longitude"));
 			p.setVotes(jsonProposition.getInt("up_votes"));
-			p.setUser(u);
+			p.setUser(users.get(id_user));
 			
-			u.getPropositions().add(p);
-			
+			users.get(id_user).getMyPropositions().add(p);
 			propositions.put(new Integer(p.getId()), p);
-			users.put(new Integer(u.getId()), u);
 			
 			ArrayList<ItemChecklist> goals = new ArrayList<ItemChecklist>();
 			p.setGoals(goals);
@@ -122,7 +133,7 @@ public final class CityChanges {
 			JSONArray jsonRequirements = jsonProposition.getJSONArray("requirements");
 			JSONArray jsonCategories = jsonProposition.getJSONArray("categories");
 			JSONArray jsonImages = jsonProposition.getJSONArray("images");
-			JSONArray jsonGroups = jsonProposition.getJSONArray("groups");
+			JSONArray jsonContributors = jsonProposition.getJSONArray("contributors");
 			
 			for(int ig = 0; ig < jsonGoals.length(); ig++) {
 				JSONObject jsonGoal = jsonGoals.getJSONObject(ig);
@@ -150,18 +161,16 @@ public final class CityChanges {
 				images.add(jsonImage.getString("url"));
 			}
 			
-			for (int ig = 0; ig < jsonGroups.length(); ig++) {
-				JSONObject jsonGroup = jsonGroups.getJSONObject(ig);
-				if(!CityChanges.users.containsKey(jsonGroup.getInt("id"))){
-					User ug = new User();
-					ug.setId(jsonGroup.getInt("id"));
-					ug.setFirstname(jsonGroup.getString("firstname"));
-					ug.setLastname(jsonGroup.getString("lastname"));
-					ug.setPicture(jsonGroup.getString("picture"));
-				}
+			for (int ic = 0; ic < jsonContributors.length(); ic++) {
+				JSONObject jsonContributor = jsonContributors.getJSONObject(ic);
+				int contributor_id = jsonContributor.getInt("id");
+				if(!CityChanges.users.containsKey(contributor_id))
+					loadUser(contributor_id);
+				p.getHelpers().add(CityChanges.users.get(contributor_id));
 			}
 		}
 	}
+	
 	
 	private static String getSourceCode(String url) throws Exception {
 		URL webpage = new URL(url);

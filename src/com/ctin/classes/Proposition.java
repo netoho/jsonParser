@@ -17,7 +17,7 @@ public class Proposition {
 	private ArrayList<Category> categories;
 	private ArrayList<String> images;
 	private User user;
-	private ArrayList<User> groups;
+	private ArrayList<User> helpers;
 	public int getId() {
 		return id;
 	}
@@ -102,11 +102,11 @@ public class Proposition {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public ArrayList<User> getGroups() {
-		return groups;
+	public ArrayList<User> getHelpers() {
+		return helpers;
 	}
-	public void setGroups(ArrayList<User> groups) {
-		this.groups = groups;
+	public void setHelpers(ArrayList<User> helpers) {
+		this.helpers = helpers;
 	}
 	
 	public Proposition(){
@@ -114,7 +114,7 @@ public class Proposition {
 		requirements = new ArrayList<ItemChecklist>();
 		categories = new ArrayList<Category>();
 		images = new ArrayList<String>();
-		groups = new ArrayList<User>();
+		helpers = new ArrayList<User>();
 	}
 	
 	public Proposition(int id, String title, String cause, String initiative,
@@ -122,7 +122,7 @@ public class Proposition {
 			ArrayList<ItemChecklist> goals,
 			ArrayList<ItemChecklist> requirements,
 			ArrayList<Category> categories, ArrayList<String> images,
-			User user, ArrayList<User> groups) {
+			User user, ArrayList<User> helpers) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -137,7 +137,7 @@ public class Proposition {
 		this.categories = categories;
 		this.images = images;
 		this.user = user;
-		this.groups = groups;
+		this.helpers = helpers;
 	}
 	
 }

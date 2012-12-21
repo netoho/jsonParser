@@ -13,15 +13,14 @@ import android.view.Menu;
 
 public class MainActivity extends Activity {
 	
-	public String url = "http://mysterious-bayou-7847.herokuapp.com/";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		CityChanges.loadUrl(url);
+		CityChanges.loadUrl();
 		for (Entry<Integer, Proposition> entry : CityChanges.getPropositions().entrySet()) {
 			Log.d("propositions", "Key : " + entry.getKey() + " Value : "
-				+ entry.getValue().getUser().getPropositions().get(0).getInitiative());
+				+ entry.getValue().getUser().getMyPropositions().get(0).getInitiative());
 		}
 	}
 

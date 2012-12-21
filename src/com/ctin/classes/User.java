@@ -9,7 +9,8 @@ public class User {
 	private String lastname;
 	private String picture;
 	private String email;
-	private ArrayList<Proposition> propositions;
+	private ArrayList<Proposition> myPropositions;
+	private ArrayList<Proposition> morePropositions;
 	
 	public int getId() {
 		return id;
@@ -41,26 +42,34 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public ArrayList<Proposition> getPropositions() {
-		return propositions;
+	public ArrayList<Proposition> getMyPropositions() {
+		return myPropositions;
 	}
-	public void setPropositions(ArrayList<Proposition> propositions) {
-		this.propositions = propositions;
+	public void setMyPropositions(ArrayList<Proposition> myPropositions) {
+		this.myPropositions = myPropositions;
+	}
+	public ArrayList<Proposition> getMorePropositions() {
+		return morePropositions;
+	}
+	public void setMorePropositions(ArrayList<Proposition> morePropositions) {
+		this.morePropositions = morePropositions;
 	}
 	
 	public User(){
-		setPropositions(new ArrayList<Proposition>());
+		setMyPropositions(new ArrayList<Proposition>());
+		setMorePropositions(new ArrayList<Proposition>());
 	}
 	
 	public User(int id, String firstname, String lastname, String picture,
-			String email, ArrayList<Proposition> propositions) {
+			String email, ArrayList<Proposition> myPropositions, ArrayList<Proposition> morePropositions) {
 		super();
 		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.picture = picture;
 		this.email = email;
-		this.propositions = propositions;
+		this.myPropositions = myPropositions;
+		this.morePropositions = morePropositions;
 	}
 	
 	
