@@ -167,6 +167,7 @@ public final class CityChanges {
 				if(!CityChanges.users.containsKey(contributor_id))
 					loadUser(contributor_id);
 				p.getHelpers().add(CityChanges.users.get(contributor_id));
+				CityChanges.users.get(contributor_id).getMorePropositions().add(p);
 			}
 		}
 	}
