@@ -112,8 +112,8 @@ public final class CityChanges {
 			p.setInitiative(jsonProposition.getString("initiative"));
 			p.setBenefits(jsonProposition.getString("benefits"));
 			p.setDirection(jsonProposition.getString("direction"));
-			p.setLatitude(jsonProposition.getLong("latitude"));
-			p.setLongitude(jsonProposition.getLong("longitude"));
+			p.setLatitude(jsonProposition.getDouble("latitude"));
+			p.setLongitude(jsonProposition.getDouble("longitude"));
 			p.setVotes(jsonProposition.getInt("up_votes"));
 			p.setUser(users.get(id_user));
 			

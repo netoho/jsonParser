@@ -10,8 +10,8 @@ public class Proposition {
 	private String initiative;
 	private String benefits;
 	private String direction;
-	private float latitude;
-	private float longitude;
+	private double latitude;
+	private double longitude;
 	private ArrayList<ItemChecklist> goals;
 	private ArrayList<ItemChecklist> requirements;
 	private ArrayList<Category> categories;
@@ -60,16 +60,16 @@ public class Proposition {
 	public void setDirection(String direction) {
 		this.direction = direction;
 	}
-	public float getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(float latitude) {
+	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
-	public float getLongitude() {
+	public double getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(float longitude) {
+	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 	public ArrayList<ItemChecklist> getGoals() {
