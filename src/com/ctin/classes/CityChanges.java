@@ -88,6 +88,7 @@ public final class CityChanges {
 		u.setLastname(jsonUser.getString("lastname"));
 		u.setPicture(jsonUser.getString("picture"));
 		u.setEmail(jsonUser.getString("email"));
+		u.setUid(jsonUser.getString("uid"));
 		users.put(new Integer(u.getId()), u);
 	}
 	
@@ -103,8 +104,11 @@ public final class CityChanges {
 			JSONObject jsonProposition = jsonObject.getJSONObject("proposition");
 			JSONObject jsonUser = jsonProposition.getJSONObject("user");
 			int id_user = jsonUser.getInt("id");
-			if(!users.containsKey(id_user))
-				loadUser(id_user);
+			if(!users.containsKey(id_user)){
+				User u = new User();
+				u.setId(id_user);
+				users.put(new Integer(u.getId()), u);
+			}
 			Proposition p = new Proposition();
 			p.setId(jsonProposition.getInt("id"));
 			p.setTitle(jsonProposition.getString("title"));

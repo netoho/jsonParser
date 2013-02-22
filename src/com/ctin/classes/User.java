@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class User {
 	
 	private int id;
+	private String uid;
 	private String firstname;
 	private String lastname;
 	private String picture;
@@ -17,6 +18,12 @@ public class User {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	public String getFirstname() {
 		return firstname;
