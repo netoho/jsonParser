@@ -106,7 +106,11 @@ public final class CityChanges {
 			int id_user = jsonUser.getInt("id");
 			if(!users.containsKey(id_user)){
 				User u = new User();
-				u.setId(id_user);
+				u.setId(jsonUser.getInt("id"));
+				u.setFirstname(jsonUser.getString("firstname"));
+				u.setLastname(jsonUser.getString("lastname"));
+				u.setPicture(jsonUser.getString("picture"));
+				u.setUid(jsonUser.getString("uid"));
 				users.put(new Integer(u.getId()), u);
 			}
 			Proposition p = new Proposition();
